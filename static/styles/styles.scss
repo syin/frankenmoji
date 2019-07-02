@@ -1,0 +1,112 @@
+$text: #222;
+$bg: #86BCAE;
+$grey: #eee;
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $bg;
+    color: $text;
+    font-family: "IBM Plex Mono", monospace;
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-size: 6rem;
+    font-weight: 300;
+    text-align: center;
+    margin: 0;
+    height: 20vh;
+
+    @include flex-center;
+}
+
+.container {
+    margin: 0 auto;
+    height: 70vh;
+    width: 90vw;
+    margin-top: 2vh;
+    max-width: 60rem;
+    background-color: white;
+
+    @include flex-center;
+}
+
+.main {
+    width: 55%;
+    height: 100%;
+
+    @include flex-center;
+}
+
+.options {
+    background-color: $grey;
+    width: 45%;
+    height: 100%;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    position: relative;
+    height: 80px;
+    width: 80px;
+    margin: 0 1rem 1rem 0;
+}
+
+.emoji-base {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.emoji-feature {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    h1 {
+        margin: 3rem auto 1rem;
+    }
+
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .main {
+        width: 100%;
+        height: auto;
+        padding: 2rem 0;
+    }
+
+    .options {
+        width: 100%;
+        height: auto;
+        overflow-y: visible;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    h1 {
+        font-size: 2rem;
+        margin: 1rem auto 0rem;
+    }
+
+}
