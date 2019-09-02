@@ -15,10 +15,15 @@ def server():
 
 @app.route('/api/list/')
 def list_emojis():
-    filename = os.path.join(app.static_folder, 'assets', 'available_emojis.json')
-    f = open(filename, 'r')
-    emojis = json.load(f)
-    return jsonify(emojis)
+    base_dir = os.path.join(app.static_folder, 'assets')
+    categories = ["eyes", "hands", "head", "mouth"]
+
+    images = {}
+    for category in categories:
+        files = os.listdir(os.path.join(base_dir, category))
+        images[category] = files
+    print(images)
+    return jsonify(images)
 
 
 # @app.route('/api/cowboize/<emoji_name>')

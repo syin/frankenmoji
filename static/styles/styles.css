@@ -53,6 +53,11 @@ h1 {
   width: 80px;
   margin: 0 1rem 1rem 0; }
 
+.main-emoji {
+  position: relative;
+  height: 160px;
+  width: 160px; }
+
 .emoji-base {
   position: absolute;
   height: 100%;
