@@ -1,9 +1,15 @@
-<frankenmoji>
+<emojionz>
     <div class="container">
         <div class="main">
             <div class="main-emoji">
-                <img src="/static/assets/base.png" alt="faceless emoji base" class="emoji-base">
-                <img each={ pickedFeature, category in pickedFeatures } if={ pickedFeature } src={ pickedFeature } class="emoji-feature">
+                <virtual if={ outputImage !== undefined }>
+                    <img src={ outputImage }>
+                </virtual>
+
+                <virtual if={ outputImage === undefined }>
+                    <img src="/static/assets/base.png" alt="faceless emoji base" class="emoji-base">
+                    <img each={ pickedFeature, category in pickedFeatures } if={ pickedFeature } src={ pickedFeature } class="emoji-feature">
+                </virtual>
             </div>
         </div>
         <div class="options">
@@ -29,6 +35,7 @@
             "hands": undefined,
             "mouth": undefined,
         };
+        self.outputImage = undefined;
 
         self.on('mount', () => {
             self.getEmojiParts();
@@ -49,7 +56,7 @@
             });
         }
 
-        pickFeature(e) {
+        async pickFeature(e) {
             const pickedFeature = e.item.item;
             const category = e.target.dataset.category;
             console.log('picked', category, pickedFeature);
@@ -59,6 +66,30 @@
             } else {
                 self.pickedFeatures[category] = pickedFeature;
             }
+
+            console.log('pickedFeatures', self.pickedFeatures)
+            const url = '/api/composite/';
+            const response = await fetch(url, {
+                method: 'POST',
+                // mode: 'cors', // no-cors, *cors, same-origin
+                // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                // credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                  'Content-Type': 'application/json'
+                  // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                // redirect: 'follow', // manual, *follow, error
+                // referrer: 'no-referrer', // no-referrer, *client
+                body: JSON.stringify(self.pickedFeatures) // body data type must match "Content-Type" header
+            });
+
+          const json = await response.json();
+          console.log('Success:', JSON.stringify(json));
+          if (json["url"] !== undefined) {
+            self.outputImage = `/static/output/${json["url"]}`;
+            self.update()
+          }
+
         }
     </script>
-</frankenmoji>
+</emojionz>
